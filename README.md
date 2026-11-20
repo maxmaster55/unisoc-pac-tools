@@ -7,6 +7,14 @@ Small, dependency-free Python tools for Unisoc (Spreadtrum) firmware files:
 - flatten an ELF32 to a raw binary, or wrap a raw ARM blob in an ELF for disassemblers
 - (optional, hardware-untested) list Unisoc devices on USB
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/maxmaster55/unisoc-pac-tools/main/assets/upt-demo.gif" width="864"
+       alt="Terminal session: upt list, check, extract, repack --replace KernelImg, check and diff run on a synthetic demo.pac; both CRCs verify and diff reports only KernelImg changed size">
+</p>
+
+<sub>Recorded from real `upt` runs on a synthetic archive built by the test
+suite's generators; no firmware involved.</sub>
+
 ```
 pip install .            # no runtime dependencies
 pip install '.[usb]'     # adds pyusb for `upt usb`
@@ -71,6 +79,11 @@ both CRCs.
 
 All integers are little endian. Strings are UTF-16LE, NUL padded.
 
+<p align="center">
+  <img src="assets/pac-layout.svg" width="880"
+       alt="PAC layout: a 2124-byte header, then a table of 2580-byte file entries starting at dir_offset, then the payloads. head_crc covers header bytes 0 to 0x848, data_crc covers byte 2124 to pac_size. Each entry's offset and size point at its payload.">
+</p>
+
 ### PAC header (2124 bytes)
 
 | Offset | Size | Field |
@@ -112,6 +125,11 @@ prefixes the ID.
 
 ### DHTB image
 
+<p align="center">
+  <img src="assets/dhtb.svg" width="880"
+       alt="DHTB image: magic DHTB at 0x000, version 1 at 0x004, payload_len at 0x030, zero elsewhere in the 0x200-byte header, then payload_len bytes of payload">
+</p>
+
 ```
 0x000  "DHTB"          magic
 0x004  u32 version     1
@@ -152,6 +170,9 @@ DHTB notes come from inspecting real images.
 pip install -e '.[test]'
 pytest
 ```
+
+The README images are regenerated with `python3 assets/make_assets.py`
+(needs Pillow and the test extra).
 
 ## License
 
