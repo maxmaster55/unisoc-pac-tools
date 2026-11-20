@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unisoc-pac-tools"
+version = "0.1.0"
+description = "Inspect, extract, repack and diff Unisoc/Spreadtrum .pac firmware and DHTB images"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT OR Apache-2.0"
+license-files = ["LICENSE-MIT", "LICENSE-APACHE"]
+keywords = ["unisoc", "spreadtrum", "pac", "firmware", "dhtb"]
+dependencies = []
+
+[project.optional-dependencies]
+usb = ["pyusb"]
+test = ["pytest"]
+
+[project.scripts]
+upt = "unisoc_pac_tools.cli:main"
+
+[tool.setuptools]
+packages = ["unisoc_pac_tools"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
